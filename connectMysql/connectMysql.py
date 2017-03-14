@@ -31,6 +31,8 @@ import mysql.connector
 
 
 def test_connect():
+    ''''''
+
     config = {
         "host": "127.0.0.1",
         "user": "root",
@@ -50,7 +52,8 @@ def test_connect():
 def create_table(_cnn):
     '''
     :param _cnn:连接器
-    :return:
+    :return
+    :param
     建表语句中的名称均可以用``来括起来，注意此处不是单引号
     '''
     sql = 'CREATE TABLE students2' \
@@ -66,6 +69,7 @@ def create_table(_cnn):
 
 
 def insert_data(_cnn):
+
     cursor = _cnn.cursor()
     try:
         # 直接字符串插入方式
@@ -127,9 +131,11 @@ def delete_data(_cnn):
         _cnn.commit()
         _cnn.close()
 
+
 if __name__ == "__main__":
     cnn = test_connect()
     # create_table(cnn)
     # insert_data(cnn)
     # query_data(cnn)
     delete_data(cnn)
+
