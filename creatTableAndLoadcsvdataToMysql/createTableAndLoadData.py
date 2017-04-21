@@ -76,6 +76,12 @@ def get_connect(_dbName,  _user, _passwd, _host='localhost'):
         print e
 
 
+def generate_select_sql_by_range_date(_begin_date, _end_date, _table_name, _columnName):
+    sql = 'select * from ' + _table_name +" where " + _columnName +" between '"+_begin_date+"' and '"+_end_date+"';";
+    return sql
+
+
+
 def execute_sql(_con, _sql):
     cursor = _con.cursor()
     cursor.execute(_sql)
@@ -83,20 +89,34 @@ def execute_sql(_con, _sql):
     _con.commit()
 
 
+def execute_query(_con, _sql):
+    cursor = _con.cursor()
+    cursor.execute(_sql)
+    for row in cursor.fetchall():
+        print row
+        for r in row:
+            print r
+
 def test3():
-    createSql, loadSql = generate_sql("train.csv", 'train')
+    createSql, loadSql = generate_sql("test.csv", 'train', 3)
     print createSql
     print loadSql
     # con = get_connect("test", "root", "password")
-    con = get_connect("xie", "root", "password", "139.199.32.123")
+    con = get_connect("xie", "root", "abc123", "139.199.32.123")
     print loadSql
     execute_sql(con, 'set global max_allowed_packet=67108864')  #用来改变max_allowed_packet
     #解决报错 'Lost connection to MySQL server during query'
     execute_sql(con, createSql)
     execute_sql(con, loadSql)
 
+def test4():
+    sql = generate_select_sql_by_range_date('2012-12-02', '2013-02-02', 'train', 'header4')
+    con = get_connect("xie", "root", "abc123", "139.199.32.123")
+    execute_query(con, sql)
+
 
 if __name__ == "__main__":
     # generate_sql("test.csv", 'train', 3)
     # get_connect()
-    test3()
+    # test3()
+    test4()
