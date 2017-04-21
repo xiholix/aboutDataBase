@@ -1,3 +1,4 @@
+#--*--coding:utf8--*--
 import pandas as pd
 import re
 import MySQLdb
@@ -83,9 +84,14 @@ def execute_sql(_con, _sql):
 
 
 def test3():
-    createSql, loadSql = generate_sql("test.csv", 'train', 3)
-    con = get_connect("test", "root", "password")
+    createSql, loadSql = generate_sql("train.csv", 'train')
+    print createSql
     print loadSql
+    # con = get_connect("test", "root", "password")
+    con = get_connect("xie", "root", "password", "139.199.32.123")
+    print loadSql
+    execute_sql(con, 'set global max_allowed_packet=67108864')  #用来改变max_allowed_packet
+    #解决报错 'Lost connection to MySQL server during query'
     execute_sql(con, createSql)
     execute_sql(con, loadSql)
 
